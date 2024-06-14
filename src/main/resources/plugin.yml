@@ -1,0 +1,4 @@
+name: LootPriority
+version: '${project.version}'
+main: de.craftjunkies.lootpriority.LootPriority
+api-version: '1.20'
