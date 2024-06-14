@@ -37,6 +37,11 @@ public class ConfigIO {
 	public void saveKills(UUID uuid, int amount) {
 		Bukkit.getAsyncScheduler().runNow(plugin, task -> {
 			fileConfiguration.set(uuid.toString() + ".kills", amount);
+			try {
+				fileConfiguration.save(file);
+			} catch (IOException e) {
+				System.out.println("Error while trying to save kills");
+			}
 		});
 	}
 

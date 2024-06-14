@@ -9,6 +9,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.craftjunkies.lootpriority.commands.StatsCommand;
 import de.craftjunkies.lootpriority.config.ConfigIO;
 import de.craftjunkies.lootpriority.listeners.DamageListener;
 import de.craftjunkies.lootpriority.listeners.JoinQuitListener;
@@ -24,6 +25,7 @@ public final class LootPriority extends JavaPlugin {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new JoinQuitListener(configIO), this);
 		pm.registerEvents(new DamageListener(), this);
+		getCommand("killstats").setExecutor(new StatsCommand());
 	}
 
 	@Override
