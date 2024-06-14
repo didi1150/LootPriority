@@ -22,7 +22,7 @@ public final class LootPriority extends JavaPlugin {
 		ConfigIO configIO = new ConfigIO(this);
 
 		PluginManager pm = Bukkit.getPluginManager();
-		pm.registerEvents(new JoinQuitListener(configIO), null);
+		pm.registerEvents(new JoinQuitListener(configIO), this);
 		pm.registerEvents(new DamageListener(), this);
 	}
 

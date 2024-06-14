@@ -20,6 +20,9 @@ public class ConfigIO {
 		this.plugin = plugin;
 
 		file = new File(plugin.getDataFolder(), "killcount.yml");
+		if (!plugin.getDataFolder().exists()) {
+			plugin.getDataFolder().mkdir();
+		}
 		if (!file.exists()) {
 			try {
 				file.createNewFile();

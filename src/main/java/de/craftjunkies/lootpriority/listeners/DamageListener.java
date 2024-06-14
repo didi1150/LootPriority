@@ -2,15 +2,20 @@ package de.craftjunkies.lootpriority.listeners;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import de.craftjunkies.lootpriority.LootPriority;
 
@@ -23,9 +28,22 @@ public class DamageListener implements Listener {
 	}
 
 	@EventHandler
+	public void onShift(PlayerToggleSneakEvent event) {
+		if (event.isSneaking()) {
+			event.getPlayer().getWorld()
+					.dropItem(event.getPlayer().getLocation().add(5, 5, 0), new ItemStack(Material.BLACK_BED))
+					.setOwner(event.getPlayer().getUniqueId());
+			;
+		}
+	}
+
+	@EventHandler
 	public void onKill(EntityDeathEvent event) {
+
+		List<ItemStack> drops = event.getDrops();
+
 		Entity entity = event.getEntity();
-		if (!(entity instanceof Monster))
+		if (!(entity instanceof Monster) && !(entity instanceof Slime))
 			return;
 
 		if (!damageDealtToEntity.containsKey(entity))
@@ -40,6 +58,11 @@ public class DamageListener implements Listener {
 			// Player's first kill
 			LootPriority.KILL_COUNT.put(player.getUniqueId(), 1);
 		}
+		drops.forEach(drop -> {
+			player.getWorld().dropItem(entity.getLocation(), new ItemStack(drop)).setOwner(player.getUniqueId());
+		});
+
+		event.getDrops().clear();
 	}
 
 	@EventHandler
